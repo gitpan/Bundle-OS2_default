@@ -1,22 +1,31 @@
-Need to manually put the directory to form.h in CC flags.  (Conflict
-with Perl's one.)
-
---- ./Makefile.PL-pre	Wed Jul 25 10:15:40 2001
-+++ ./Makefile.PL	Tue Mar 19 22:20:18 2002
-@@ -130,7 +130,11 @@ my $guess_cfg = {
+--- ./Makefile.PL.orig	Wed Jul 25 10:15:40 2001
++++ ./Makefile.PL	Thu Sep 18 16:37:52 2003
+@@ -97,6 +97,15 @@ my $f_libs;
+ #    combinations of "-I/usr/include" and "-DSYSV=1" in $inc to see if
+ #    it fixes things.
+ 
++my @inc;
++if ($^O eq 'os2') {	# form.h from Perl conflicts with one of NCurses
++   if (exists $ENV{C_INCLUDE_PATH}) {
++     require Config;
++     @inc = split /\Q$Config::Config{path_sep}/, $ENV{C_INCLUDE_PATH};
++     @inc = map "-I$_", grep -r "$_/form.h", @inc;
++   }
++}
++
+ ##   OS            default guess for $inc      default guess for $libs
+ #
+ my $guess_cfg = {
+@@ -130,7 +139,7 @@ my $guess_cfg = {
    'openbsd'   => [ ''                       => '-lcurses -ltermcap'        ],  
    'os2'       => {
      'bsd'     => [ ''                       => '-lcurses -ltermcap'        ],
 -    'ncurses' => [ ''                       => '-lncurses'                 ],
-+    'ncurses' => [ ($ENV{C_INCLUDE_PATH}
-+		    ? "-I" . join " -I", split /;/, $ENV{C_INCLUDE_PATH}
-+		    : '')                   => ($OS2::is_aout
-+						? '-lncurses -lpanel -lmenu -lform'
-+						: '-lncurses -lncurses_s -lpanel -lpanel_s -lmenu -lmenu_s -lform -lform_s')],
++    'ncurses' => [ "@inc",                  => '-lncurses -lncurses_s -lpanel_s -lmenu_s -lform_s'],
      'default' =>   'ncurses'
    },
    'sco'       => [ ''                       => '-lcurses -ltermcap'        ],
-@@ -160,18 +164,6 @@ my $panels;
+@@ -160,18 +169,6 @@ my $panels;
  my $menus;
  my $forms;
  
@@ -35,12 +44,12 @@ with Perl's one.)
  my $guess  = $guess_cfg->{$^O};
  my $source = "hints/c-$^O";
  
-@@ -184,6 +176,29 @@ if (ref $guess eq 'HASH') {
+@@ -184,6 +181,29 @@ if (ref $guess eq 'HASH') {
  if (ref $guess ne 'ARRAY') {
      die "FATAL: internal error: guess_cfg is bad\n";
  }
 +
-+if ($guess->[1] and $] >= 5.006001) {
++if ($guess->[1] and $] >= 5.008001) {
 +  require ExtUtils::Liblist;		# Buggy before this
 +  ($list) = ExtUtils::Liblist->ext($guess->[1]);
 +  $panels = 'PANELS' if $list =~ /-lpanel/;
@@ -65,8 +74,8 @@ with Perl's one.)
  
  print "GEN    support: ", ($gen    ? "enabled" : "not applicable"), "\n";
  print "PANELS support: ", ($panels ? "enabled" : "not enabled"), "\n";
---- ./test.syms-pre	Tue Jul 24 12:40:48 2001
-+++ ./test.syms	Thu Mar 14 03:44:42 2002
+--- ./test.syms.orig	Tue Jul 24 12:40:48 2001
++++ ./test.syms	Thu Sep 18 16:41:34 2003
 @@ -41,8 +41,8 @@ while (@ARGV) {
  
  	next;
@@ -78,6 +87,19 @@ with Perl's one.)
  }
  if (@ARGV) { Usage() }
  
+@@ -217,9 +217,9 @@ while (<IN>) {
+ 	"*/\n";
+ }
+ 
+-unlink "testsym";
+-unlink "testint";
+-unlink "testtyp";
++unlink "testsym", "testsym.exe";
++unlink "testint", "testint.exe";
++unlink "testtyp", "testtyp.exe";
+ 
+ 1 while unlink "testsym.obj";   # Possibly pointless VMSism
+ 1 while unlink "testint.obj";   # Possibly pointless VMSism
 @@ -237,7 +237,7 @@ exit 0;
  sub Usage {
      print LOG @_, "\n";

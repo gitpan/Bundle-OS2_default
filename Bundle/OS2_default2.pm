@@ -1,6 +1,6 @@
 package Bundle::OS2_default2;
 
-$VERSION = '1.00';
+$VERSION = '1.01';
 
 1;
 
@@ -15,8 +15,6 @@ Bundle::OS2_default2 - Modules to install second on OS/2 binary distribution
 =head1 CONTENTS
 
 C::Scan
-
-Term::ReadLine::Perl
 
 Bundle::CPAN		- to get CPAN friends
 

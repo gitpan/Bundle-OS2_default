@@ -1,6 +1,6 @@
-package Bundle::OS2_default5;
+package Bundle::OS2_default6;
 
-$VERSION = '1.00';
+$VERSION = '1.01';
 
 1;
 
@@ -44,17 +44,23 @@ MIME::Head		- to get MIME-tools
 
 MIME::Types
 
-CGI::Request		- to get CGI-modules
-
 XML::Parser		- is in Bundle::XML, but makes testing quickier
 
+XML::LibXML::Common	- likewise
+
+XML::NamespaceSupport	- needed by XML::SAX, but not specified as dependency
+
+XML::SAX		- prereq for LibXML
+
 Unicode::String		- prereq for Bundle::XML, but makes testing quickier
+
+XML::RegExp		- prereq for XML::DOM
+
+XML::LibXML		- prereq for XML::DT
 
 Bundle::XML
 
 =head1 REMARKS
-
-Most of these are unbundled from libwww-perl.
 
 The following stuff can't be put in the L<CONTENTS> section:
 

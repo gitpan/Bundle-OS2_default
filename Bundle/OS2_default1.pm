@@ -1,6 +1,6 @@
 package Bundle::OS2_default1;
 
-$VERSION = '1.01';
+$VERSION = '1.02';
 
 1;
 
@@ -14,9 +14,11 @@ Bundle::OS2_default1 - Modules to install first for OS/2 binary distribution
 
 =head1 CONTENTS
 
-Data::Flow
-
 Term::ReadKey
+
+Term::ReadLine::Perl
+
+Data::Flow
 
 Curses
 

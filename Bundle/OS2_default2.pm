@@ -24,5 +24,7 @@ Bundle::libnet		- to get libnet
 
 MIME::Base64		- to bootstrap libwww-perl
 
+HTML::HeadParser	- to test libwww-perl
+
 =cut
 

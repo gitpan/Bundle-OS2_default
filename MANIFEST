@@ -6,3 +6,9 @@ Bundle/OS2_default1.pm
 Bundle/OS2_default2.pm
 Bundle/OS2_default1_2.pm
 Bundle/OS2_default3.pm
+Bundle/OS2_default4.pm
+Bundle/OS2_default5.pm
+Bundle/OS2_default6.pm
+patches/diff_XML-Parser-2.30
+patches/diff_curses-1.06
+patches/diff_libwww-perl-5.64

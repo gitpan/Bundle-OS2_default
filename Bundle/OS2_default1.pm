@@ -1,6 +1,6 @@
 package Bundle::OS2_default1;
 
-$VERSION = '1.00';
+$VERSION = '1.01';
 
 1;
 
@@ -18,13 +18,7 @@ Data::Flow
 
 Term::ReadKey
 
-Devel::DProf
-
-Devel::Peek
-
 Curses
-
-Data::Dumper		- to get libnet
 
 MD5			- to get libnet
 

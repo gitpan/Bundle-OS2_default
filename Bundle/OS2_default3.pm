@@ -6,7 +6,7 @@ $VERSION = '1.01';
 
 =head1 NAME
 
-Bundle::OS2_default3 - Modules to install last for OS/2 binary distribution
+Bundle::OS2_default3 - Modules to install third for OS/2 binary distribution
 
 =head1 SYNOPSIS
 
